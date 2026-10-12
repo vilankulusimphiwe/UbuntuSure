@@ -1,0 +1,57 @@
+<div class="reports_page">
+  <h1>Reports</h1>
+  <p>Short summaries of the book. Open one when you want the detail.</p>
+
+  <div class="report_cards">
+    <article class="report_card report_card_blue">
+      <strong>{{ reports().length }}</strong>
+      <span>Reports</span>
+    </article>
+    <article class="report_card report_card_green">
+      <strong>R 12 100</strong>
+      <span>Premiums this month</span>
+    </article>
+    <article class="report_card report_card_amber">
+      <strong>5</strong>
+      <span>Open claims</span>
+    </article>
+    <article class="report_card report_card_teal">
+      <strong>2</strong>
+      <span>Quotes still pending</span>
+    </article>
+  </div>
+
+  <div class="report_filters">
+    <label class="report_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search a report name" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="report_pills">
+      <button type="button" class="report_pill" [class.report_pill_selected]="selectedCategory === 'All'" (click)="categoryClicked('All')">All</button>
+      <button type="button" class="report_pill" [class.report_pill_selected]="selectedCategory === 'Policies'" (click)="categoryClicked('Policies')">Policies</button>
+      <button type="button" class="report_pill" [class.report_pill_selected]="selectedCategory === 'Claims'" (click)="categoryClicked('Claims')">Claims</button>
+      <button type="button" class="report_pill" [class.report_pill_selected]="selectedCategory === 'Premiums'" (click)="categoryClicked('Premiums')">Premiums</button>
+    </div>
+  </div>
+
+  <section class="report_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Report</th>
+          <th>What it shows</th>
+          <th>Last run</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (report of visibleReports(); track report.reportName) {
+          <tr>
+            <td>{{ report.reportName }}</td>
+            <td>{{ report.description }}</td>
+            <td>{{ displayDate(report.lastRun) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

@@ -1,0 +1,108 @@
+<div class="documents_page">
+  <h1>Documents</h1>
+  <p>Files kept against a customer, policy, or claim.</p>
+
+  <div class="document_cards">
+    <article class="document_card document_card_blue">
+      <strong>{{ documents().length }}</strong>
+      <span>Documents in this sample</span>
+    </article>
+    <article class="document_card document_card_green">
+      <strong>{{ countByStatus('Filed') }}</strong>
+      <span>Filed</span>
+    </article>
+    <article class="document_card document_card_amber">
+      <strong>{{ countByStatus('Waiting') }}</strong>
+      <span>Waiting</span>
+    </article>
+    <article class="document_card document_card_teal">
+      <strong>{{ countByStatus('Missing') }}</strong>
+      <span>Missing</span>
+    </article>
+  </div>
+
+  <div class="document_filters">
+    <label class="document_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search document or customer" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="document_pills">
+      <button type="button" class="document_pill" [class.document_pill_selected]="selectedType === 'All'" (click)="typeClicked('All')">All</button>
+      <button type="button" class="document_pill" [class.document_pill_selected]="selectedType === 'Policy schedule'" (click)="typeClicked('Policy schedule')">Policy schedule</button>
+      <button type="button" class="document_pill" [class.document_pill_selected]="selectedType === 'Claim form'" (click)="typeClicked('Claim form')">Claim form</button>
+      <button type="button" class="document_pill" [class.document_pill_selected]="selectedType === 'Proof of ID'" (click)="typeClicked('Proof of ID')">Proof of ID</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <section class="document_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Document</th>
+          <th>Customer</th>
+          <th>Type</th>
+          <th>Linked to</th>
+          <th>Status</th>
+          <th>Added</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (document of visibleDocuments(); track document.documentId) {
+          <tr>
+            <td>{{ document.documentName }}</td>
+            <td>{{ document.customerName }}</td>
+            <td>{{ document.documentType }}</td>
+            <td class="document_number">{{ document.linkedTo }}</td>
+            <td><span [class]="'document_status document_status_' + statusTone(document.status)">{{ document.status }}</span></td>
+            <td>{{ displayDate(document.addedOn) }}</td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(document)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(document)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingId === 0 ? 'New document' : 'Update document' }}</h2>
+        <label>Document<input name="documentName" [(ngModel)]="form.documentName" /></label>
+        <label>Customer
+          <select name="customerNumber" [(ngModel)]="form.customerNumber">
+            @for (customer of customerChoices(); track customer.customerNumber) {
+              <option [value]="customer.customerNumber">{{ customer.customerName }}</option>
+            }
+          </select>
+        </label>
+        <label>Type
+          <select name="documentType" [(ngModel)]="form.documentType">
+            <option>Policy schedule</option>
+            <option>Claim form</option>
+            <option>Proof of ID</option>
+          </select>
+        </label>
+        <label>Linked to<input name="linkedTo" [(ngModel)]="form.linkedTo" /></label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>Filed</option>
+            <option>Waiting</option>
+            <option>Missing</option>
+          </select>
+        </label>
+        <label>Added<input name="addedOn" type="date" [(ngModel)]="form.addedOn" /></label>
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

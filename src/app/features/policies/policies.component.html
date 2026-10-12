@@ -1,0 +1,102 @@
+<div class="policies_page">
+  <h1>Policies</h1>
+  <p>Cover that is in force, due soon, or has ended.</p>
+
+  <div class="policy_cards">
+    <article class="policy_card policy_card_blue">
+      <strong>{{ policies().length }}</strong>
+      <span>Policies in this sample</span>
+    </article>
+    <article class="policy_card policy_card_green">
+      <strong>{{ countByStatus('In force') }}</strong>
+      <span>In force</span>
+    </article>
+    <article class="policy_card policy_card_amber">
+      <strong>{{ countByStatus('Due soon') }}</strong>
+      <span>Due soon</span>
+    </article>
+    <article class="policy_card policy_card_teal">
+      <strong>{{ countByStatus('Lapsed') }}</strong>
+      <span>Lapsed</span>
+    </article>
+  </div>
+
+  <div class="policy_filters">
+    <label class="policy_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search policy number or customer" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="policy_pills">
+      <button type="button" class="policy_pill" [class.policy_pill_selected]="selectedStatus === 'All'" (click)="statusClicked('All')">All</button>
+      <button type="button" class="policy_pill" [class.policy_pill_selected]="selectedStatus === 'In force'" (click)="statusClicked('In force')">In force</button>
+      <button type="button" class="policy_pill" [class.policy_pill_selected]="selectedStatus === 'Due soon'" (click)="statusClicked('Due soon')">Due soon</button>
+      <button type="button" class="policy_pill" [class.policy_pill_selected]="selectedStatus === 'Lapsed'" (click)="statusClicked('Lapsed')">Lapsed</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <section class="policy_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Policy #</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th class="policy_amount">Premium</th>
+          <th>Status</th>
+          <th>Renewal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (policy of visiblePolicies(); track policy.policyNumber) {
+          <tr>
+            <td class="policy_number">{{ policy.policyNumber }}</td>
+            <td>{{ policy.customerName }}</td>
+            <td>{{ policy.product }}</td>
+            <td class="policy_amount">{{ moneyText(policy.premium) }}</td>
+            <td><span [class]="'policy_status policy_status_' + statusTone(policy.status)">{{ policy.status }}</span></td>
+            <td>{{ displayDate(policy.renewalDate) }}</td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(policy)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(policy)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingNumber === '' ? 'New policy' : 'Update policy' }}</h2>
+        <label>Policy number<input name="policyNumber" [(ngModel)]="form.policyNumber" [disabled]="editingNumber !== ''" /></label>
+        <label>Customer
+          <select name="customerNumber" [(ngModel)]="form.customerNumber">
+            @for (customer of customerChoices(); track customer.customerNumber) {
+              <option [value]="customer.customerNumber">{{ customer.customerName }}</option>
+            }
+          </select>
+        </label>
+        <label>Product<input name="product" [(ngModel)]="form.product" /></label>
+        <label>Premium<input name="premium" type="number" [(ngModel)]="form.premium" /></label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>In force</option>
+            <option>Due soon</option>
+            <option>Lapsed</option>
+          </select>
+        </label>
+        <label>Renewal<input name="renewalDate" type="date" [(ngModel)]="form.renewalDate" /></label>
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

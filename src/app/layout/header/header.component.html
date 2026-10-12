@@ -1,0 +1,61 @@
+<header>
+    <div class="manu_icon"  (click)="menuClicked()">
+        <span class="material-icons" aria-hidden="true">menu</span>
+    </div>
+
+    <label class="header_search">
+       <span class="material-icons" aria-hidden="true">search</span>
+       <input
+        type="search"
+        placeholder="Search customers, policies, claims..."
+        [value]="searchText"
+        (input)="searchTextChanged($event)"
+        (keyup.enter)="search()"
+        />
+       @if (showResults()) {
+         <div class="header_results">
+           @if (matches().length === 0) {
+             <p class="header_results_empty">No matches</p>
+           }
+           @for (match of matches(); track match.kind + match.detail) {
+             <button type="button" class="header_result" (click)="openMatch(match)">
+               <strong>{{ match.title }}</strong>
+               <span>{{ match.kind }} · {{ match.detail }}</span>
+             </button>
+           }
+         </div>
+       }
+    </label>
+
+    <div class="header_bell_wrap">
+        <button type="button" class="header_bell" (click)="bellClicked()" aria-label="Notifications">
+            <span class="material-icons" aria-hidden="true">notifications</span>
+            @if (notices().length > 0) {
+                <span class="header_bell_count">{{ notices().length }}</span>
+            }
+        </button>
+        @if (showNotices()) {
+            <div class="header_notices">
+                @if (notices().length === 0) {
+                    <p class="header_results_empty">Nothing needs attention</p>
+                }
+                @for (notice of notices(); track notice.kind + notice.detail) {
+                    <button type="button" class="header_result" (click)="openNotice(notice)">
+                        <strong>{{ notice.title }}</strong>
+                        <span>{{ notice.kind }} · {{ notice.detail }}</span>
+                    </button>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="header_user">
+        <span class="header_avatar">{{ initials() }}</span>
+        <span class="header_identity">
+            <strong>{{ headerUser()?.displayName }}</strong>
+            <span>{{ headerUser()?.jobTitle }}</span>
+        </span>
+        <span class="material-icons" aria-hidden="true">expand_more</span>
+    </div>
+
+</header>

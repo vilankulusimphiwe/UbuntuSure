@@ -1,0 +1,113 @@
+<div class="customers_page">
+  <h1>Customers</h1>
+  <p>People and business UbuntuSure sells to.</p>
+
+  <!-- The four count cards. -->
+  <div class="customer_cards">
+    <article class="customer_card customer_card_blue">
+      <strong>{{ customers().length }}</strong>
+      <span>Customers in this sample</span>
+    </article>
+
+    <article class="customer_card customer_card_green">
+      <strong>{{ countByStatus('Active') }}</strong>
+      <span>Active</span>
+    </article>
+
+    <article class="customer_card customer_card_teal">
+      <strong>{{ countByStatus('Prospect') }}</strong>
+      <span>Prospect</span>
+    </article>
+
+    <article class="customer_card customer_card_amber">
+      <strong>{{ countByStatus('Lapsed') }}</strong>
+      <span>Lapsed</span>
+    </article>
+  </div>
+
+  <!-- Search box on the left. Status pills on the right. All starts selected. -->
+  <div class="customer_filters">
+    <label class="customer_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search name or customer number" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+
+    <div class="customer_pills">
+      <button type="button" class="customer_pill" [class.customer_pill_selected]="selectedStatus === 'All'" (click)="statusClicked('All')">All</button>
+      <button type="button" class="customer_pill" [class.customer_pill_selected]="selectedStatus === 'Active'" (click)="statusClicked('Active')">Active</button>
+      <button type="button" class="customer_pill" [class.customer_pill_selected]="selectedStatus === 'Prospect'" (click)="statusClicked('Prospect')">Prospect</button>
+      <button type="button" class="customer_pill" [class.customer_pill_selected]="selectedStatus === 'Lapsed'" (click)="statusClicked('Lapsed')">Lapsed</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <!-- One table row per customer. tone picks the status pill colour. -->
+  <section class="customer_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Customer #</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Town</th>
+          <th class="customer_policies">Policies</th>
+          <th>Status</th>
+          <th>Since</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (customer of visibleCustomers(); track customer.customerNumber) {
+          <tr>
+            <td class="customer_number">{{ customer.customerNumber }}</td>
+            <td>{{ customer.customerName }}</td>
+            <td>{{ customer.customerType }}</td>
+            <td>{{ customer.town }}</td>
+            <td class="customer_policies">{{ customer.policyCount }}</td>
+            <td>
+              <span [class]="'customer_status customer_status_' + statusTone(customer.status)">{{ customer.status }}</span>
+            </td>
+            <td>{{ memberSinceText(customer.memberSince) }}</td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(customer)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(customer)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingNumber === '' ? 'New customer' : 'Update customer' }}</h2>
+        <label>Customer number<input name="customerNumber" [(ngModel)]="form.customerNumber" [disabled]="editingNumber !== ''" /></label>
+        <label>Name<input name="customerName" [(ngModel)]="form.customerName" /></label>
+        <label>Type
+          <select name="customerType" [(ngModel)]="form.customerType">
+            <option>Person</option>
+            <option>Business</option>
+          </select>
+        </label>
+        <label>Town<input name="town" [(ngModel)]="form.town" /></label>
+        <label>Policies<input name="policyCount" type="number" [(ngModel)]="form.policyCount" /></label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>Active</option>
+            <option>Prospect</option>
+            <option>Lapsed</option>
+          </select>
+        </label>
+        <label>Member since<input name="memberSince" type="date" [(ngModel)]="form.memberSince" /></label>
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

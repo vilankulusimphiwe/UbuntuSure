@@ -1,0 +1,136 @@
+<div class="dashboard_heading">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Welcome back, {{ firstName() }}. Here's what's happening today.</p>
+  </div>
+  <p class="dashboard_date">{{ today() }}</p>
+</div>
+
+<div class="dashboard_cards">
+  @for (card of cards; track card.label) {
+    <article class="dashboard_card" [class]="'dashboard_card dashboard_card_' + card.tone">
+      <span class="material-icons">{{ card.icon }}</span>
+      <strong>{{ card.value }}</strong>
+      <span class="dashboard_card_label">{{ card.label }}</span>
+      <span class="dashboard_card_change">{{ card.change }} {{ card.note }}</span>
+    </article>
+  }
+</div>
+
+<!-- Two panels side by side: claims on the left, policies on the right. -->
+<div class="dashboard_panels">
+  <section class="dashboard_panel">
+    <h2>Claims by Status</h2>
+
+    <!-- The ring is the circle. The white hole in the middle shows the total. -->
+    <div class="claims_status">
+      <div class="claims_ring" [style.background]="ringBackground()">
+        <div class="claims_ring_hole">
+          <strong>{{ openClaimsTotal() }}</strong>
+          <span>Open Claims</span>
+        </div>
+      </div>
+      <ul>
+        <!-- One row per status: coloured dot, name, and count. -->
+        @for (status of claimStatuses; track status.label) {
+          <li>
+            <span class="claims_dot" [style.background]="status.color"></span>
+            {{ status.label }}
+            <strong>{{ status.count }}</strong>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="dashboard_panel">
+    <h2>Policies by Product</h2>
+
+    <!-- Numbers on the left. One standing bar per product. Name under the bar. -->
+    <div class="policy_chart">
+      <div class="policy_axis">
+        <span>8,000</span>
+        <span>6,000</span>
+        <span>4,000</span>
+        <span>2,000</span>
+        <span>0</span>
+      </div>
+
+      @for (product of policyProducts; track product.label) {
+        <div class="policy_column">
+          <div class="policy_bar_space">
+            <div class="policy_bar" [style.height]="barHeight(product.value)"></div>
+          </div>
+          <span>{{ product.label }}</span>
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+<!-- Two tables side by side: recent claims on the left, recent quotes on the right. -->
+<div class="dashboard_tables">
+  <section class="dashboard_panel">
+    <div class="table_heading">
+      <h2>Recent Claims</h2>
+      <!-- View all goes to the Claims page. -->
+      <a href="/claims">View all</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Claim #</th>
+          <th>Customer</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- One row per claim. tone picks the colour of the status pill. -->
+        @for (claim of recentClaims; track claim.number) {
+          <tr>
+            <td class="table_number">{{ claim.number }}</td>
+            <td>{{ claim.customer }}</td>
+            <td>{{ claim.type }}</td>
+            <td><span [class]="'status_pill status_pill_' + claim.tone">{{ claim.status }}</span></td>
+            <td>{{ claim.date }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="dashboard_panel">
+    <div class="table_heading">
+      <h2>Recent Quotes</h2>
+      <!-- View all goes to the Quotes page. -->
+      <a href="/quotes">View all</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Quote #</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- One row per quote. product is the cover. tone colours the status pill. -->
+        @for (quote of recentQuotes; track quote.number) {
+          <tr>
+            <td class="table_number">{{ quote.number }}</td>
+            <td>{{ quote.customer }}</td>
+            <td>{{ quote.product }}</td>
+            <td><span [class]="'status_pill status_pill_' + quote.tone">{{ quote.status }}</span></td>
+            <td>{{ quote.date }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

@@ -1,0 +1,213 @@
+.administration_page {
+  padding: 24px 28px 28px;
+  background: #e7f2fb;
+}
+
+.administration_page h1 {
+  margin: 0;
+  color: #1a2332;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.administration_page > p {
+  margin: 6px 0 0;
+  color: #5e6d7e;
+  font-size: 14px;
+}
+
+.admin_cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.admin_card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+.admin_card strong {
+  color: #1a2332;
+  font-size: 28px;
+}
+
+.admin_card span {
+  color: #5e6d7e;
+  font-size: 13px;
+}
+
+.admin_card_blue {
+  background: #7eb6ef;
+}
+
+.admin_card_green {
+  background: #63d09a;
+}
+
+.admin_card_teal {
+  background: #5ec6e6;
+}
+
+.admin_card_amber {
+  background: #ffc44d;
+}
+
+.admin_filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.admin_search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 320px;
+  height: 40px;
+  padding: 0 14px;
+  background: #fff;
+  border: 1px solid #c5d0dc;
+  border-radius: 8px;
+  color: #8b97a3;
+}
+
+.admin_search input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #1a2332;
+}
+
+.admin_search .material-icons {
+  font-size: 20px;
+}
+
+.admin_pills {
+  display: flex;
+  gap: 8px;
+}
+
+.admin_pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 18px;
+  border: 1px solid #d5dee8;
+  border-radius: 999px;
+  background: #d7ebfa;
+  color: #1a4a73;
+  font-size: 14px;
+}
+
+.admin_pill_selected {
+  background: #1f5c93;
+  border-color: #1f5c93;
+  color: #fff;
+}
+
+.admin_table {
+  margin-top: 16px;
+  background: #f4f9fd;
+  border: 1px solid #b9d4ee;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin_table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin_table th {
+  padding: 12px 14px;
+  background: #1f5c93;
+  border-bottom: 1px solid #1f5c93;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.admin_table td {
+  padding: 12px 14px;
+  background: #f7fbfe;
+  border-bottom: 1px solid #d5e6f4;
+  color: #1a2332;
+  font-size: 13px;
+}
+
+.admin_table tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin_table tbody tr:nth-child(even) td {
+  background: #e4f0fb;
+}
+
+.admin_number {
+  color: #1f5c93;
+}
+
+.admin_amount {
+  text-align: right;
+}
+
+.admin_status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.admin_status_green {
+  background: #e7f6ee;
+  color: #1e7f4f;
+}
+
+.admin_status_blue {
+  background: #e8f1fb;
+  color: #1f5c93;
+}
+
+.admin_status_amber {
+  background: #fff6dd;
+  color: #b8860b;
+}
+
+.admin_status_teal {
+  background: #e7f6fb;
+  color: #1f7f93;
+}
+
+.admin_status_red {
+  background: #fdecec;
+  color: #c0392b;
+}
+
+.admin_check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  color: #1a2332;
+}
+
+.admin_check input {
+  width: 16px;
+  height: 16px;
+}
+
+.admin_check_note {
+  margin: -4px 0 12px;
+  color: #5e6d7e;
+  font-size: 13px;
+}
+

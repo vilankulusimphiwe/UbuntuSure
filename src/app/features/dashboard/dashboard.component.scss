@@ -1,0 +1,295 @@
+:host {
+  display: block;
+  background: #e7f2fb;
+}
+
+.dashboard_heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px 0;
+}
+
+.dashboard_heading h1 {
+  margin: 0;
+  color: #1a2332;
+  font-size: 28px;
+}
+
+.dashboard_heading p {
+  margin: 6px 0 0;
+  color: #5e6d7e;
+  font-size: 14px;
+}
+
+.dashboard_heading .dashboard_date {
+  margin: 8px 0 0;
+  color: #8b97a3;
+  font-size: 13px;
+}
+
+.dashboard_cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 24px 28px 0;
+}
+
+.dashboard_card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+.dashboard_card strong {
+  color: #1a2332;
+  font-size: 28px;
+}
+
+.dashboard_card_label,
+.dashboard_card_change {
+  color: #5e6d7e;
+  font-size: 13px;
+}
+
+.dashboard_card_blue {
+  background: #7eb6ef;
+  color: #0c2340;
+}
+
+.dashboard_card_red {
+  background: #f09999;
+  color: #7a1f1f;
+}
+
+.dashboard_card_green {
+  background: #63d09a;
+  color: #145c38;
+}
+
+.dashboard_card_yellow {
+  background: #ffc44d;
+  color: #7a5200;
+}
+
+
+// Graph and Bar
+.dashboard_panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 24px 28px 0;
+}
+
+.dashboard_panel {
+  padding: 18px;
+  background: #f4f9fd;
+  border: 1px solid #b9d4ee;
+  border-radius: 12px;
+}
+
+.dashboard_panel h2 {
+  margin: 0 0 16px;
+  color: #1a2332;
+  font-size: 16px;
+}
+
+.claims_status {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.claims_ring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+}
+
+.claims_ring_hole {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.claims_ring_hole strong {
+  color: #1a2332;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.claims_ring_hole span {
+  margin-top: 4px;
+  color: #8b97a3;
+  font-size: 12px;
+}
+
+.claims_status ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.claims_status li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  margin-top: 8px;
+  color: #5e6d7e;
+  font-size: 14px;
+}
+
+.claims_status li strong {
+  margin-left: auto;
+  color: #1a2332;
+}
+
+.claims_dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.policy_chart {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.policy_axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 42px;
+  height: 180px;
+  color: #8b97a3;
+  font-size: 11px;
+}
+
+.policy_column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+}
+
+.policy_bar_space {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 180px;
+  border-bottom: 1px solid #d5dee8;
+}
+
+.policy_bar {
+  width: 28px;
+  background: #3d9be9;
+  border-radius: 3px 3px 0 0;
+}
+
+.policy_column span {
+  margin-top: 8px;
+  color: #5e6d7e;
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+// Recent Claims and Recent Quotes sit side by side under the charts.
+.dashboard_tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px 28px 28px;
+}
+
+.table_heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table_heading h2 {
+  margin: 0;
+}
+
+.table_heading a {
+  color: #1f5c93;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.dashboard_tables table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard_tables th {
+  padding: 10px 8px;
+  background: #1f5c93;
+  border-bottom: 1px solid #1f5c93;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.dashboard_tables td {
+  padding: 10px 8px;
+  background: #f7fbfe;
+  border-bottom: 1px solid #d5e6f4;
+  color: #1a2332;
+  font-size: 13px;
+}
+
+.dashboard_tables tbody tr:nth-child(even) td {
+  background: #e4f0fb;
+}
+
+.table_number {
+  color: #1f5c93;
+}
+
+.status_pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.status_pill_yellow {
+  background: #fff6dd;
+  color: #b8860b;
+}
+
+.status_pill_blue {
+  background: #e8f1fb;
+  color: #1f5c93;
+}
+
+.status_pill_orange {
+  background: #fff1e0;
+  color: #c56a1a;
+}
+
+.status_pill_green {
+  background: #e7f6ee;
+  color: #1e7f4f;
+}
+
+.status_pill_red {
+  background: #fdecec;
+  color: #c0392b;
+}

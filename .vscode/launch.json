@@ -1,0 +1,15 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    
+    
+    {
+      "name": "UbuntuSure API",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/backend/UbuntuSure.Api/UbuntuSure.Api.csproj"
+    },
+
+  ]
+}

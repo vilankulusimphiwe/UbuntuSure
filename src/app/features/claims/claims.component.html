@@ -1,0 +1,102 @@
+<div class="claims_page">
+  <h1>Claims</h1>
+  <p>Claims that are open, in review, or finished.</p>
+
+  <div class="claim_cards">
+    <article class="claim_card claim_card_blue">
+      <strong>{{ claims().length }}</strong>
+      <span>Claims in this sample</span>
+    </article>
+    <article class="claim_card claim_card_amber">
+      <strong>{{ countByStatus('Under Review') }}</strong>
+      <span>Under Review</span>
+    </article>
+    <article class="claim_card claim_card_teal">
+      <strong>{{ countByStatus('Assessment') }}</strong>
+      <span>Assessment</span>
+    </article>
+    <article class="claim_card claim_card_green">
+      <strong>{{ countByStatus('Approved') }}</strong>
+      <span>Approved</span>
+    </article>
+  </div>
+
+  <div class="claim_filters">
+    <label class="claim_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search claim number or customer" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="claim_pills">
+      <button type="button" class="claim_pill" [class.claim_pill_selected]="selectedStatus === 'All'" (click)="statusClicked('All')">All</button>
+      <button type="button" class="claim_pill" [class.claim_pill_selected]="selectedStatus === 'Registered'" (click)="statusClicked('Registered')">Registered</button>
+      <button type="button" class="claim_pill" [class.claim_pill_selected]="selectedStatus === 'Under Review'" (click)="statusClicked('Under Review')">Under Review</button>
+      <button type="button" class="claim_pill" [class.claim_pill_selected]="selectedStatus === 'Assessment'" (click)="statusClicked('Assessment')">Assessment</button>
+      <button type="button" class="claim_pill" [class.claim_pill_selected]="selectedStatus === 'Approved'" (click)="statusClicked('Approved')">Approved</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <section class="claim_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Claim #</th>
+          <th>Customer</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (claim of visibleClaims(); track claim.claimNumber) {
+          <tr>
+            <td class="claim_number">{{ claim.claimNumber }}</td>
+            <td>{{ claim.customerName }}</td>
+            <td>{{ claim.claimType }}</td>
+            <td><span [class]="'claim_status claim_status_' + statusTone(claim.status)">{{ claim.status }}</span></td>
+            <td>{{ displayDate(claim.claimDate) }}</td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(claim)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(claim)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingNumber === '' ? 'New claim' : 'Update claim' }}</h2>
+        <label>Claim number<input name="claimNumber" [(ngModel)]="form.claimNumber" [disabled]="editingNumber !== ''" /></label>
+        <label>Customer
+          <select name="customerNumber" [(ngModel)]="form.customerNumber">
+            @for (customer of customerChoices(); track customer.customerNumber) {
+              <option [value]="customer.customerNumber">{{ customer.customerName }}</option>
+            }
+          </select>
+        </label>
+        <label>Type<input name="claimType" [(ngModel)]="form.claimType" /></label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>Registered</option>
+            <option>Under Review</option>
+            <option>Assessment</option>
+            <option>Pending Info</option>
+            <option>Approved</option>
+          </select>
+        </label>
+        <label>Date<input name="claimDate" type="date" [(ngModel)]="form.claimDate" /></label>
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

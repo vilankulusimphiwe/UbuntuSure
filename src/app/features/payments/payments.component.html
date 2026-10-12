@@ -1,0 +1,110 @@
+<div class="payments_page">
+  <h1>Payments</h1>
+  <p>Money received, still due, or that failed.</p>
+
+  <div class="payment_cards">
+    <article class="payment_card payment_card_blue">
+      <strong>{{ payments().length }}</strong>
+      <span>Payments in this sample</span>
+    </article>
+    <article class="payment_card payment_card_green">
+      <strong>{{ countByStatus('Paid') }}</strong>
+      <span>Paid</span>
+    </article>
+    <article class="payment_card payment_card_amber">
+      <strong>{{ countByStatus('Pending') }}</strong>
+      <span>Pending</span>
+    </article>
+    <article class="payment_card payment_card_teal">
+      <strong>{{ countByStatus('Failed') }}</strong>
+      <span>Failed</span>
+    </article>
+  </div>
+
+  <div class="payment_filters">
+    <label class="payment_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search receipt or customer" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="payment_pills">
+      <button type="button" class="payment_pill" [class.payment_pill_selected]="selectedStatus === 'All'" (click)="statusClicked('All')">All</button>
+      <button type="button" class="payment_pill" [class.payment_pill_selected]="selectedStatus === 'Paid'" (click)="statusClicked('Paid')">Paid</button>
+      <button type="button" class="payment_pill" [class.payment_pill_selected]="selectedStatus === 'Pending'" (click)="statusClicked('Pending')">Pending</button>
+      <button type="button" class="payment_pill" [class.payment_pill_selected]="selectedStatus === 'Failed'" (click)="statusClicked('Failed')">Failed</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <section class="payment_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Receipt #</th>
+          <th>Customer</th>
+          <th>Policy #</th>
+          <th class="payment_amount">Amount</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (payment of visiblePayments(); track payment.receiptNumber) {
+          <tr>
+            <td class="payment_number">{{ payment.receiptNumber }}</td>
+            <td>{{ payment.customerName }}</td>
+            <td>{{ payment.policyNumber }}</td>
+            <td class="payment_amount">{{ moneyText(payment.amount) }}</td>
+            <td>{{ payment.method }}</td>
+            <td><span [class]="'payment_status payment_status_' + statusTone(payment.status)">{{ payment.status }}</span></td>
+            <td>{{ displayDate(payment.paymentDate) }}</td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(payment)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(payment)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingNumber === '' ? 'New payment' : 'Update payment' }}</h2>
+        <label>Receipt number<input name="receiptNumber" [(ngModel)]="form.receiptNumber" [disabled]="editingNumber !== ''" /></label>
+        <label>Policy
+          <select name="policyNumber" [(ngModel)]="form.policyNumber">
+            @for (policy of policyChoices(); track policy.policyNumber) {
+              <option [value]="policy.policyNumber">{{ policy.policyNumber }} · {{ policy.customerName }}</option>
+            }
+          </select>
+        </label>
+        <label>Amount<input name="amount" type="number" [(ngModel)]="form.amount" /></label>
+        <label>Method
+          <select name="method" [(ngModel)]="form.method">
+            <option>Debit order</option>
+            <option>EFT</option>
+            <option>Card</option>
+          </select>
+        </label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>Paid</option>
+            <option>Pending</option>
+            <option>Failed</option>
+          </select>
+        </label>
+        <label>Date<input name="paymentDate" type="date" [(ngModel)]="form.paymentDate" /></label>
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

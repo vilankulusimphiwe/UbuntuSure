@@ -1,0 +1,144 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+:root {
+  --us-navy: #0c2340;
+  --us-blue: #1f5c93;
+  --us-surface: #f4f6f8;
+  --us-border: #dde3ea;
+  --us-text: #1a2332;
+  --us-muted: #5e6d7e;
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--us-surface);
+  color: var(--us-text);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+.record_new {
+  margin-left: auto;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #1f5c93;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.record_row_button {
+  height: 28px;
+  margin-right: 6px;
+  padding: 0 10px;
+  border: 1px solid #1f5c93;
+  border-radius: 6px;
+  background: #1f5c93;
+  color: #fff;
+  cursor: pointer;
+}
+
+.record_row_button_delete {
+  border-color: #c94b4b;
+  background: #c94b4b;
+  color: #fff;
+}
+
+.record_backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 35, 64, 0.45);
+}
+
+.record_dialog {
+  width: 440px;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.record_dialog h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.record_dialog label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  color: #5e6d7e;
+  font-size: 13px;
+}
+
+.record_dialog input,
+.record_dialog select {
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #c5d0dc;
+  border-radius: 8px;
+  color: #1a2332;
+  font-size: 14px;
+}
+
+.record_message {
+  margin: 0 0 12px;
+  color: #9b2c2c;
+  font-size: 13px;
+}
+
+.record_dialog_buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.record_dialog .record_new {
+  margin-left: 0;
+}
+
+.record_dialog .record_row_button {
+  background: #d7ebfa;
+  border-color: #1f5c93;
+  color: #1a4a73;
+}

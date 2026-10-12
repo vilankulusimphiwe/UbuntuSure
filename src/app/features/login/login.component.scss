@@ -1,0 +1,126 @@
+.login_background_container {
+  min-height: 100vh;
+  background-image: url('/login-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  // Put login_container in the middle
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_container {
+  width: 100%;
+  max-width: 470px;
+  margin: 0 16px;
+  padding: 36px 32px;
+  min-height: 320px;
+  background: #fff;
+
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+
+  transform: translateY(90px);
+}
+
+.login_container h1 {
+  margin: 0;
+  color: #0c2340;
+  font-size: 28px;
+  text-align: center;
+}
+
+.login_container p {
+  margin: 8px 0 0;
+  color: #5e6d7e;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login_input {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  padding: 12px 14px 12px 42px;
+  border: 1px solid #c5ced6;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.login_options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.login_remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #5e6d7e;
+  font-size: 14px;
+}
+
+.login_forgot {
+  color: #2f6fdb;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.login_button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #2f6fdb;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.app_footer p {
+  margin-top: 24px;
+  //color: #f7d2d2;
+  text-align: center;
+}
+
+.login_field {
+  position: relative;
+  margin-top: 24px;
+}
+
+.login_field_icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8b97a3;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.login_input_password {
+  padding-right: 42px;
+}
+
+.login_eye {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8b97a3;
+  cursor: pointer;
+}
+
+.login_eye .material-icons {
+  font-size: 20px;
+}

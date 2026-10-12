@@ -1,0 +1,14 @@
+<div class="Main_Container" [class.sidebar_hidden]="sidebarHidden">
+  
+  <app-header (menuClick)="toggleSidebar()" />
+
+   
+  @if (sidebarHidden === false) {
+    <app-sidebar />
+  }
+
+  <app-footer />
+  <div class="Sub_Container">
+    <router-outlet />
+  </div>
+</div>

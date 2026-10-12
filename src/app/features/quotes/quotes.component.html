@@ -1,0 +1,106 @@
+<div class="quotes_page">
+  <h1>Quotes</h1>
+  <p>Requests for cover that are not policies yet.</p>
+
+  <!-- The four count cards. -->
+  <div class="quote_cards">
+    <article class="quote_card quote_card_blue">
+      <strong>{{ quotes().length }}</strong>
+      <span>Quotes in this sample</span>
+    </article>
+    <article class="quote_card quote_card_amber">
+      <strong>{{ countByStatus('Pending') }}</strong>
+      <span>Pending</span>
+    </article>
+    <article class="quote_card quote_card_green">
+      <strong>{{ countByStatus('Accepted') }}</strong>
+      <span>Accepted</span>
+    </article>
+    <article class="quote_card quote_card_teal">
+      <strong>{{ countByStatus('Expired') }}</strong>
+      <span>Expired</span>
+    </article>
+  </div>
+
+  <div class="quote_filters">
+    <label class="quote_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search quote number or customer" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="quote_pills">
+      <button type="button" class="quote_pill" [class.quote_pill_selected]="selectedStatus === 'All'" (click)="statusClicked('All')">All</button>
+      <button type="button" class="quote_pill" [class.quote_pill_selected]="selectedStatus === 'Pending'" (click)="statusClicked('Pending')">Pending</button>
+      <button type="button" class="quote_pill" [class.quote_pill_selected]="selectedStatus === 'Accepted'" (click)="statusClicked('Accepted')">Accepted</button>
+      <button type="button" class="quote_pill" [class.quote_pill_selected]="selectedStatus === 'Quoted'" (click)="statusClicked('Quoted')">Quoted</button>
+      <button type="button" class="quote_pill" [class.quote_pill_selected]="selectedStatus === 'Expired'" (click)="statusClicked('Expired')">Expired</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <!-- Each tr is one quote. The status class only sets the pill colour. -->
+  <section class="quote_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Quote #</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th class="quote_amount">Premium</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (quote of visibleQuotes(); track quote.quoteNumber) {
+          <tr>
+            <td class="quote_number">{{ quote.quoteNumber }}</td>
+            <td>{{ quote.customerName }}</td>
+            <td>{{ quote.product }}</td>
+            <td class="quote_amount">{{ moneyText(quote.premium) }}</td>
+            <td><span [class]="'quote_status quote_status_' + statusTone(quote.status)">{{ quote.status }}</span></td>
+            <td>{{ displayDate(quote.quoteDate) }}</td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(quote)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(quote)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingNumber === '' ? 'New quote' : 'Update quote' }}</h2>
+        <label>Quote number<input name="quoteNumber" [(ngModel)]="form.quoteNumber" [disabled]="editingNumber !== ''" /></label>
+        <label>Customer
+          <select name="customerNumber" [(ngModel)]="form.customerNumber">
+            @for (customer of customerChoices(); track customer.customerNumber) {
+              <option [value]="customer.customerNumber">{{ customer.customerName }}</option>
+            }
+          </select>
+        </label>
+        <label>Product<input name="product" [(ngModel)]="form.product" /></label>
+        <label>Premium<input name="premium" type="number" [(ngModel)]="form.premium" /></label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>Pending</option>
+            <option>Accepted</option>
+            <option>Quoted</option>
+            <option>Expired</option>
+          </select>
+        </label>
+        <label>Date<input name="quoteDate" type="date" [(ngModel)]="form.quoteDate" /></label>
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

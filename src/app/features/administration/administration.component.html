@@ -1,0 +1,110 @@
+<div class="administration_page">
+  <h1>Administration</h1>
+  <p>Staff who can sign in to UbuntuSure.</p>
+
+  <div class="admin_cards">
+    <article class="admin_card admin_card_blue">
+      <strong>{{ staff().length }}</strong>
+      <span>Staff</span>
+    </article>
+    <article class="admin_card admin_card_green">
+      <strong>{{ countByStatus('Active') }}</strong>
+      <span>Active</span>
+    </article>
+    <article class="admin_card admin_card_amber">
+      <strong>{{ countByArea('Claims') }}</strong>
+      <span>Claims</span>
+    </article>
+    <article class="admin_card admin_card_teal">
+      <strong>{{ countByStatus('Inactive') }}</strong>
+      <span>Inactive</span>
+    </article>
+  </div>
+
+  <div class="admin_filters">
+    <label class="admin_search">
+      <span class="material-icons" aria-hidden="true">search</span>
+      <input type="search" placeholder="Search name or username" [value]="searchText()" (input)="searchTextChanged($event)" />
+    </label>
+    <div class="admin_pills">
+      <button type="button" class="admin_pill" [class.admin_pill_selected]="selectedStatus === 'All'" (click)="statusClicked('All')">All</button>
+      <button type="button" class="admin_pill" [class.admin_pill_selected]="selectedStatus === 'Active'" (click)="statusClicked('Active')">Active</button>
+      <button type="button" class="admin_pill" [class.admin_pill_selected]="selectedStatus === 'Inactive'" (click)="statusClicked('Inactive')">Inactive</button>
+    </div>
+    <button type="button" class="record_new" (click)="newClicked()">New</button>
+  </div>
+
+  <section class="admin_table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Job title</th>
+          <th>Area</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (person of visibleStaff(); track person.userName) {
+          <tr>
+            <td>{{ person.displayName }}</td>
+            <td class="admin_number">{{ person.userName }}</td>
+            <td>{{ person.jobTitle }}</td>
+            <td>{{ person.area }}</td>
+            <td>{{ roleText(person) }}</td>
+            <td><span [class]="'admin_status admin_status_' + statusTone(person.status)">{{ person.status }}</span></td>
+            <td>
+              <button type="button" class="record_row_button" (click)="updateClicked(person)">Update</button>
+              <button type="button" class="record_row_button record_row_button_delete" (click)="deleteClicked(person)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (formOpen()) {
+    <div class="record_backdrop">
+      <form class="record_dialog" (ngSubmit)="saveClicked()">
+        <h2>{{ editingUserName === '' ? 'New staff member' : 'Update staff member' }}</h2>
+        <label>Username<input name="userName" [(ngModel)]="form.userName" [disabled]="editingUserName !== ''" /></label>
+        <label>Name<input name="displayName" [(ngModel)]="form.displayName" /></label>
+        <label>Job title<input name="jobTitle" [(ngModel)]="form.jobTitle" /></label>
+        <label>Area
+          <select name="area" [(ngModel)]="form.area">
+            <option>Claims</option>
+            <option>Policies</option>
+            <option>Payments</option>
+          </select>
+        </label>
+        <label>Status
+          <select name="status" [(ngModel)]="form.status">
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </label>
+        <label class="admin_check">
+          <input name="isAdmin" type="checkbox" [(ngModel)]="form.isAdmin" />
+          Admin user
+        </label>
+        <p class="admin_check_note">Leave this unticked for a normal consultant.</p>
+        <label>{{ editingUserName === '' ? 'Password' : 'New password' }}
+          <input name="password" type="password" [(ngModel)]="form.password" />
+        </label>
+        @if (editingUserName !== '') {
+          <p class="admin_check_note">Leave the password blank to keep the current one.</p>
+        }
+        @if (formMessage()) {
+          <p class="record_message">{{ formMessage() }}</p>
+        }
+        <div class="record_dialog_buttons">
+          <button type="button" class="record_row_button" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="record_new">Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>
